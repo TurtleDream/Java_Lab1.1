@@ -1,0 +1,39 @@
+package turtledream;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+
+class Thr	extends Thread {
+    public void run(String p, int byteCount){
+        try{
+                InputStream input_stream;
+                input_stream = new FileInputStream(p);
+                long start = System.currentTimeMillis();
+                while(true) {
+                    if(input_stream.available() > byteCount) {
+                        sleep(1000);
+                        byte[] buffer = new byte[byteCount];
+                        input_stream.read(buffer, 0, byteCount);
+                        String s = new String(buffer);
+                        System.out.print(s);
+                    }
+                    else{
+                        sleep(1000);
+                        byte[] buffer = new byte[byteCount];
+                        input_stream.read(buffer, 0,input_stream.available()-1);
+                        String s = new String(buffer);
+                        System.out.print(s);
+                        System.out.println();
+                        long finish = System.currentTimeMillis() - start;
+                        System.out.println("Time = " + finish);
+                        input_stream.close();
+                        break;
+                    }
+
+                 }
+        }
+        catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
