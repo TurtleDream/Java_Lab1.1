@@ -109,7 +109,7 @@ class MyThread extends Thread{
 public class Main
 {
     public static void main(String[] args) throws IOException {
-        Thread myThread = new MyThread("/Расположение читаемого файла/*", 500);
+        Thread myThread = new MyThread("*/Расположение читаемого файла/*", 500);
         Thread myThread2 = new MyThread("*/Расположение читаемого файла/*", 1500);
         myThread.start();
         myThread2.start();
