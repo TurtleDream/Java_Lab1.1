@@ -6,12 +6,14 @@ class MyInputStream extends FileInputStream{
 
     private int speed;
     private long lastTime = 0;
+
     MyInputStream(File file, int speed) throws FileNotFoundException {
         super(file);
         this.speed = speed;
     }
+
     @Override
-    public int read() throws IOException {
+    public synchronized int read() throws IOException {
         long t = 1000 / speed;
         long currentTime = System.currentTimeMillis();
         if( lastTime == 0){
@@ -33,7 +35,7 @@ class MyInputStream extends FileInputStream{
     }
 
     @Override
-    public int read(byte[] b) throws IOException {
+    public synchronized int read(byte[] b) throws IOException {
         long t = 1000 * b.length / speed;
         long currentTime = System.currentTimeMillis();
         if( lastTime == 0){
@@ -54,7 +56,7 @@ class MyInputStream extends FileInputStream{
     }
 
     @Override
-    public int read(byte[] b, int off, int len) throws IOException {
+    public synchronized int read(byte[] b, int off, int len) throws IOException {
         long t = 1000 * (len-off) / speed;
         long currentTime = System.currentTimeMillis();
         if( lastTime == 0){
@@ -108,11 +110,10 @@ class MyThread extends Thread{
 
 public class Main
 {
-    public static void main(String[] args) throws IOException {
-        Thread myThread = new MyThread("*/Расположение читаемого файла/*", 500);
-        Thread myThread2 = new MyThread("*/Расположение читаемого файла/*", 1500);
+    public static void main(String[] args) {
+        Thread myThread = new MyThread("/*Расположение читаемого файла*/", 500);
+        Thread myThread2 = new MyThread("/*Расположение читаемого файла*/", 1500);
         myThread.start();
         myThread2.start();
-
     }
 }
